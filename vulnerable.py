@@ -1,23 +1,23 @@
-import os
-import secrets
-import sqlite3
+import random
 
-# Fix 1: Environment variable use ki
-DB_PASSWORD = os.environ.get('DB_PASSWORD')
+# Hardcoded password
+DB_PASSWORD = "supersecret123"
 
-# Fix 2: Parameterized query use ki (SQL Injection fix)
+# SQL Injection vulnerability
 def get_user(username):
+    import sqlite3
     conn = sqlite3.connect("users.db")
     cursor = conn.cursor()
-    query = "SELECT * FROM users WHERE username = ?"
-    cursor.execute(query, (username,))
+    query = "SELECT * FROM users WHERE username = '" + username + "'"
+    cursor.execute(query)
     return cursor.fetchall()
 
-# Fix 3: secrets module use kiya
+# Weak random number
 def generate_otp():
-    return secrets.randbelow(900000) + 100000
+    return random.randint(100000, 999999)
 
-# Fix 4: Unused variable hata diya
+# Unused variable
 def calculate():
+    unused_count = 0
     result = 10 + 20
     return result
